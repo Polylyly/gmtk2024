@@ -14,7 +14,7 @@ public class Camera : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        GameObject orientationObject = GameObject.Find("Orientation");
+        GameObject orientationObject = GameObject.Find("Orient");
         orientation = orientationObject.GetComponent<Transform>();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -24,7 +24,7 @@ public class Camera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        sensitivity = PlayerPrefs.GetFloat("Mouse Sensitivity");
+        //sensitivity = PlayerPrefs.GetFloat("Mouse Sensitivity");
 
         cineCam.m_XAxis.m_MaxSpeed = sensitivity * 2;
         cineCam.m_YAxis.m_MaxSpeed = sensitivity / 33;
