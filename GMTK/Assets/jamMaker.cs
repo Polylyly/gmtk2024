@@ -3,33 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class jamMaker : MonoBehaviour
-{ 
+{
+    public LayerMask strawbarry;
+    public LayerMask sugarCube;
+    public GameObject jamLayer;
+    public int stawbarryInside = 0;
+    public int sugarInside = 0;
+
+    private HashSet<GameObject> objectsInside = new HashSet<GameObject>();
+
+
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.tag == "straw");
+        if (((1 << other.gameObject.layer) & strawbarry) != 0)
         {
-           
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            if (rb != null)
+
+            stawbarryInside++;
+            Debug.Log("stawbary inside " + stawbarryInside);
+        }
+
+        if (((1 << other.gameObject.layer) & sugarCube) != 0)
+        {
+
+            sugarInside++;
+            Debug.Log("sugar cube inside " + sugarInside);
+        }
+
+        if (sugarInside == 3 && stawbarryInside == 2)
+        {
+            jamLayer.gameObject.SetActive(true);
+
+            GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+
+            foreach (GameObject obj in allObjects)
             {
-                
-                rb.isKinematic = true;
+                // Check if the object is on the specified layer
+                if (((1 << obj.layer) & strawbarry) != 0)
+                {
+                    // Destroy the object
+                    Destroy(obj);
+                    Debug.Log("Destroyed object: " + obj.name);
+                }
+            }
+            foreach (GameObject obj in allObjects)
+            {
+                // Check if the object is on the specified layer
+                if (((1 << obj.layer) & sugarCube) != 0)
+                {
+                    // Destroy the object
+                    Destroy(obj);
+                    Debug.Log("Destroyed object: " + obj.name);
+                }
             }
         }
+    
+
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        
-        if (other.tag == "straw")
+        // Check if the object is on the specified layer
+        if (((1 << other.gameObject.layer) & strawbarry) != 0)
         {
-            
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.isKinematic = false;
-            }
+            // Decrement the count when an object exits
+            stawbarryInside--;
+            Debug.Log("strawbarry inside " + stawbarryInside);
+        }
+
+        if (((1 << other.gameObject.layer) & sugarCube) != 0)
+        {
+            // Decrement the count when an object exits
+            sugarInside--;
+            Debug.Log("sugar cube inside " + sugarInside);
         }
     }
+
+    public int GetObjectsInsideCount()
+    {
+        return stawbarryInside;
+        return sugarInside;
+    }
+
+   
 }
