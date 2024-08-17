@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     bool pickedUp;
     public LayerMask layerMask;
     public float minForward, maxForward, minUp, maxUp;
+    public GameObject arm1, arm2;
 
     [Header("Health")]
     public float maxHealth;
