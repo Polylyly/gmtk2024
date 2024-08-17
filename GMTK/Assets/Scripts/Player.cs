@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     bool pickedUp;
     public LayerMask layerMask;
     public float minForward, maxForward, minUp, maxUp;
+    
 
     [Header("Other")]
     public Transform orientation;
@@ -160,6 +161,8 @@ public class Player : MonoBehaviour
                         obj.transform.localPosition = Vector3.zero;
                         obj.transform.localRotation = new Quaternion(0, 0, 0, 0);
                         obj.GetComponent<Rigidbody>().isKinematic = true;
+
+
                     }
                 }
             }
