@@ -21,12 +21,19 @@ public class Player : MonoBehaviour
     private float originalSpeed, originalAddition, originalJumpForce;
 
     [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space, pauseKey = KeyCode.Escape;
+    public KeyCode jumpKey = KeyCode.Space, pauseKey = KeyCode.Escape, interactKey = KeyCode.F;
 
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask GroundLayer;
     public bool grounded;
+
+    [Header("Cooking")]
+    public float rayRange;
+    public Transform pickUpPoint;
+    bool pickedUp;
+    public LayerMask layerMask;
+    public float minForward, maxForward, minUp, maxUp;
 
     [Header("Other")]
     public Transform orientation;
@@ -52,10 +59,11 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        pickedUp = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        pauseMenu.SetActive(false);
+        //pauseMenu.SetActive(false);
 
         originalSpeed = moveSpeed;
         originalAddition = sprintAddition;
@@ -132,9 +140,46 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(pauseKey))
         {
-            if (!paused) PauseGame();
+            //if (!paused) PauseGame();
         }
 
+        if (Input.GetKeyDown(interactKey))
+        {
+            if (!pickedUp)
+            {
+                RaycastHit Hit = new RaycastHit();
+                if (Physics.Raycast(transform.position, orientation.transform.forward, out Hit, rayRange, layerMask, QueryTriggerInteraction.Collide))
+                {
+                    Debug.DrawRay(transform.position, orientation.transform.forward, Color.red, 5f);
+                    Debug.Log(Hit.distance);
+                    if (Hit.collider.CompareTag("Throwable"))
+                    {
+                        pickedUp = true;
+                        GameObject obj = Hit.collider.gameObject;
+                        obj.transform.parent = pickUpPoint;
+                        obj.transform.localPosition = Vector3.zero;
+                        obj.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                        obj.GetComponent<Rigidbody>().isKinematic = true;
+                    }
+                }
+            }
+            else
+            {
+                GameObject obj = pickUpPoint.GetChild(0).gameObject;
+                obj.transform.parent = null;
+                Rigidbody rb = obj.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+
+                Vector3 horizontalDirection = orientation.transform.forward.normalized;
+                Vector3 verticalDirection = Vector3.up.normalized;
+                float horizontalMagnitude = Random.Range(minForward, maxForward);
+                float verticalMagnitude = Random.Range(minUp, maxUp);
+                Vector3 Force = new Vector3(horizontalMagnitude * horizontalDirection.x, verticalMagnitude * verticalDirection.y, horizontalMagnitude * horizontalDirection.z);
+                rb.AddForce(Force, ForceMode.Impulse);
+
+                pickedUp = false;
+            }
+        }
     }
 
     private void MovePlayer()
