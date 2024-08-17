@@ -27,6 +27,11 @@ public class Player : MonoBehaviour
     public float playerHeight;
     public LayerMask GroundLayer;
     public bool grounded;
+    public float minimumFall, fallMultiplier;
+    bool wasGrounded, wasFalling;
+    float StartOfFall;
+
+    bool isFalling { get { return (!grounded && rb.velocity.y < 0); } }
 
     [Header("Cooking")]
     public float rayRange;
@@ -34,7 +39,10 @@ public class Player : MonoBehaviour
     bool pickedUp;
     public LayerMask layerMask;
     public float minForward, maxForward, minUp, maxUp;
-    
+
+    [Header("Health")]
+    public float maxHealth;
+    public float currentHealth;
 
     [Header("Other")]
     public Transform orientation;
@@ -60,6 +68,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentHealth = maxHealth;
         pickedUp = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -91,6 +100,18 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+
+        if (!wasFalling && isFalling) StartOfFall = transform.position.y;
+        if(!wasGrounded && grounded)
+        {
+            float fallDistance = StartOfFall - transform.position.y;
+            if (fallDistance >= minimumFall) TakeDamage(fallMultiplier * fallDistance);
+        }
+
+        wasGrounded = grounded;
+        wasFalling = isFalling;
+
+        if (currentHealth <= 0) Die();
     }
 
     // Update is called once per frame
@@ -243,5 +264,17 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Time.timeScale = 1;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("Owie #" + damage);
+        currentHealth -= damage;
+        //Player feedback
+    }
+
+    void Die()
+    {
+
     }
 }
