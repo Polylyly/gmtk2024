@@ -170,13 +170,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(interactKey))
         {
+            if (pickedUp && pickUpPoint.childCount == 0) pickedUp = false;
+
             if (!pickedUp)
             {
                 RaycastHit Hit = new RaycastHit();
                 if (Physics.Raycast(transform.position, orientation.transform.forward, out Hit, rayRange, layerMask, QueryTriggerInteraction.Collide))
                 {
-                    Debug.DrawRay(transform.position, orientation.transform.forward, Color.red, 5f);
-                    Debug.Log(Hit.distance);
+                    Debug.Log("Hit " + Hit.collider.tag);
                     if (Hit.collider.CompareTag("Throwable"))
                     {
                         pickedUp = true;
@@ -185,8 +186,10 @@ public class Player : MonoBehaviour
                         obj.transform.localPosition = Vector3.zero;
                         obj.transform.localRotation = new Quaternion(0, 0, 0, 0);
                         obj.GetComponent<Rigidbody>().isKinematic = true;
-
-
+                        foreach (MeshCollider collider in obj.GetComponentsInChildren<MeshCollider>())
+                        {
+                            collider.isTrigger = true;
+                        }
                     }
                 }
             }
@@ -203,6 +206,11 @@ public class Player : MonoBehaviour
                 float verticalMagnitude = Random.Range(minUp, maxUp);
                 Vector3 Force = new Vector3(horizontalMagnitude * horizontalDirection.x, verticalMagnitude * verticalDirection.y, horizontalMagnitude * horizontalDirection.z);
                 rb.AddForce(Force, ForceMode.Impulse);
+
+                foreach (MeshCollider collider in obj.GetComponentsInChildren<MeshCollider>())
+                {
+                    collider.isTrigger = false;
+                }
 
                 pickedUp = false;
             }

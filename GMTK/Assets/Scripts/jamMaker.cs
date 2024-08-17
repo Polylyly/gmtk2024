@@ -30,7 +30,7 @@ public class jamMaker : MonoBehaviour
             Debug.Log("sugar cube inside " + sugarInside);
         }
 
-        if (sugarInside == 3 && stawbarryInside == 2)
+        if (sugarInside == 2 && stawbarryInside == 3)
         {
             jamLayer.gameObject.SetActive(true);
 
@@ -42,7 +42,7 @@ public class jamMaker : MonoBehaviour
                 if (((1 << obj.layer) & strawbarry) != 0)
                 {
                     // Destroy the object
-                    Destroy(obj);
+                    Destroy(obj.transform.parent.gameObject);
                     Debug.Log("Destroyed object: " + obj.name);
                 }
             }
@@ -52,7 +52,7 @@ public class jamMaker : MonoBehaviour
                 if (((1 << obj.layer) & sugarCube) != 0)
                 {
                     // Destroy the object
-                    Destroy(obj);
+                    Destroy(obj.transform.parent.gameObject);
                     Debug.Log("Destroyed object: " + obj.name);
                 }
             }
