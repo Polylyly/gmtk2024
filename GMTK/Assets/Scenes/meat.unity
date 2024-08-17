@@ -147,7 +147,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86553876}
-  m_LocalRotation: {x: 0.07491482, y: 0.000000017158035, z: -0.0000000012890132, w: 0.99718994}
+  m_LocalRotation: {x: 0.07491482, y: -0.000000017158028, z: 0.0000000012890128, w: 0.99718994}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -599,7 +599,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269208037}
-  m_LocalRotation: {x: 0.09299297, y: 0.0000000042829558, z: -4.0001816e-10, w: 0.9956668}
+  m_LocalRotation: {x: 0.09299297, y: -0.0000000042829558, z: 4.0001816e-10, w: 0.9956668}
   m_LocalPosition: {x: 0, y: 1.6300049, z: -7.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3087,7 +3087,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1598934046}
-  m_LocalRotation: {x: 0.09299297, y: 0.0000000042829553, z: -4.0001813e-10, w: 0.9956668}
+  m_LocalRotation: {x: 0.09299297, y: -0.0000000042829553, z: 4.0001813e-10, w: 0.9956668}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4994,18 +4994,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6617490983572307912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6617490983572307917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2459bcf68521a3f4880ff9630fae499c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6617490983572307917
 GameObject:
   m_ObjectHideFlags: 0
@@ -5016,7 +5004,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6617490983572307918}
   - component: {fileID: 6617490983572307919}
-  - component: {fileID: 6617490983572307912}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged

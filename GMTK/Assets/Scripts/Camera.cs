@@ -26,7 +26,7 @@ public class Camera : MonoBehaviour
     {
         sensitivity = PlayerPrefs.GetFloat("Mouse Sensitivity");
 
-        cineCam.m_XAxis.m_MaxSpeed = sensitivity * 9.5f;
+        cineCam.m_XAxis.m_MaxSpeed = sensitivity * 10f;
         cineCam.m_YAxis.m_MaxSpeed = sensitivity / 18;
 
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
