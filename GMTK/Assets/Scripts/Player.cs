@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        //pauseMenu.SetActive(false);
+        pauseMenu.SetActive(false);
 
         originalSpeed = moveSpeed;
         originalAddition = sprintAddition;
@@ -79,11 +79,13 @@ public class Player : MonoBehaviour
 
 
         //Gets keybinds from playerprefs
-       //if (!PlayerPrefs.HasKey("Jump Key")) PlayerPrefs.SetString("Jump Key", "Space");
-        //if (!PlayerPrefs.HasKey("Pause Key")) PlayerPrefs.SetString("Pause Key", "Escape");
+        if (!PlayerPrefs.HasKey("Jump Key")) PlayerPrefs.SetString("Jump Key", "Space");
+        if (!PlayerPrefs.HasKey("Pause Key")) PlayerPrefs.SetString("Pause Key", "Escape");
+        if (!PlayerPrefs.HasKey("Interact Key")) PlayerPrefs.SetString("Interact Key", "F");
 
-        //jumpKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Jump Key"));
-        //pauseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Pause Key"));
+        jumpKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Jump Key"));
+        pauseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Pause Key"));
+        interactKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Interact Key"));
     }
 
     private void FixedUpdate()
@@ -94,8 +96,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //jumpKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Jump Key"));
-        //pauseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Pause Key"));
+        jumpKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Jump Key"));
+        pauseKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Pause Key"));
+        interactKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Interact Key"));
 
         if (!paused)
         {
@@ -141,7 +144,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(pauseKey))
         {
-            //if (!paused) PauseGame();
+            if (!paused) PauseGame();
         }
 
         if (Input.GetKeyDown(interactKey))
@@ -223,7 +226,7 @@ public class Player : MonoBehaviour
     void PauseGame()
     {
         pauseMenu.SetActive(true);
-        GUICanvas.SetActive(false);
+        //GUICanvas.SetActive(false);
         paused = true;
         AudioListener.pause = true;
         Cursor.lockState = CursorLockMode.None;
@@ -234,7 +237,7 @@ public class Player : MonoBehaviour
     public void ResumeGame()
     {
         pauseMenu.SetActive(false);
-        GUICanvas.SetActive(true);
+        //GUICanvas.SetActive(true);
         paused = false;
         AudioListener.pause = false;
         Cursor.lockState = CursorLockMode.Locked;
