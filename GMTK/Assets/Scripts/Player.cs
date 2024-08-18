@@ -70,6 +70,8 @@ public class Player : MonoBehaviour
     private GameObject playerObject;
     private Camera cameraScript;
 
+    public AudioSource jumpSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -264,6 +266,8 @@ public class Player : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        jumpSound.Play();
     }
     void ResetJump()
     {
