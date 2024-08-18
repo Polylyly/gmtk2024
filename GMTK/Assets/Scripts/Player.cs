@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
 
     bool onWall { get { return Physics.CheckCapsule(wallPointBottom.position, wallPointTop.position, playerRadius, wallLayer); } }
 
+    public Collision currentWall;
+
     [Header("Cooking")]
     public float rayRange;
     public Transform pickUpPoint;
@@ -241,7 +243,8 @@ public class Player : MonoBehaviour
             {
                 if (verticalInput != 0 || horizontalInput != 0) 
                 {
-                    rb.AddForce(new Vector3(moveDirection.normalized.x * currentSpeed * -0.5f, jumpForce * 0.25f, moveDirection.normalized.z * currentSpeed * -0.5f), ForceMode.Impulse);
+                    Vector3 bounceDirection = transform.position-currentWall.transform.position;
+                    rb.AddForce(bounceDirection.normalized * -jumpForce * 0.25f, ForceMode.Impulse);
                 }
             }
 
@@ -306,5 +309,10 @@ public class Player : MonoBehaviour
     void Die()
     {
 
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (onWall) currentWall = collision;
     }
 }
