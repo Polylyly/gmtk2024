@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
             {
                 if (verticalInput != 0 || horizontalInput != 0) 
                 {
-                    rb.AddForce(moveDirection.normalized * -0.5f, ForceMode.Impulse);
+                    rb.AddForce(new Vector3(moveDirection.normalized.x * currentSpeed * -0.5f, jumpForce * 0.25f, moveDirection.normalized.z * currentSpeed * -0.5f), ForceMode.Impulse);
                 }
             }
 
