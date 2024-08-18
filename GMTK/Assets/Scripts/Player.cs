@@ -25,13 +25,17 @@ public class Player : MonoBehaviour
 
     [Header("Ground Check")]
     public float playerHeight;
-    public LayerMask GroundLayer;
+    public float playerRadius;
+    public LayerMask GroundLayer, wallLayer;
     public bool grounded;
     public float minimumFall, fallMultiplier;
     bool wasGrounded, wasFalling;
     float StartOfFall;
+    public Transform wallPointTop, wallPointBottom;
 
     bool isFalling { get { return (!grounded && rb.velocity.y < 0); } }
+
+    bool onWall { get { return Physics.CheckCapsule(wallPointBottom.position, wallPointTop.position, playerRadius, wallLayer); } }
 
     [Header("Cooking")]
     public float rayRange;
@@ -224,11 +228,24 @@ public class Player : MonoBehaviour
 
         //on ground
         if (grounded)
+        {
             rb.AddForce(moveDirection.normalized * currentSpeed * 10, ForceMode.Force);
+        }
 
         //in air
         else if (!grounded)
-            rb.AddForce(moveDirection.normalized * currentSpeed * 10 * airMultiplier, ForceMode.Force);
+        {
+            if (onWall)
+            {
+                if (verticalInput != 0 || horizontalInput != 0) 
+                {
+                    rb.AddForce(new Vector3(0, jumpForce * -0.5f, 0), ForceMode.Impulse);
+                }
+            }
+
+            else rb.AddForce(moveDirection.normalized * currentSpeed * 10 * airMultiplier, ForceMode.Force);
+        }
+
     }
 
     void SpeedControl()
