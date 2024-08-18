@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 
     bool onWall { get { return Physics.CheckCapsule(wallPointBottom.position, wallPointTop.position, playerRadius, wallLayer); } }
 
-    public Collision currentWall;
+    public Transform currentWall;
 
     [Header("Cooking")]
     public float rayRange;
@@ -243,8 +243,7 @@ public class Player : MonoBehaviour
             {
                 if (verticalInput != 0 || horizontalInput != 0) 
                 {
-                    Vector3 bounceDirection = transform.position-currentWall.transform.position;
-                    rb.AddForce(bounceDirection.normalized * -jumpForce * 0.25f, ForceMode.Impulse);
+                    rb.AddForce(orientation.transform.forward.normalized * -jumpForce * 300, ForceMode.Force);
                 }
             }
 
@@ -308,11 +307,14 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-
+        SceneManager.LoadScene("Main Menu");
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (onWall) currentWall = collision;
+        if (onWall)
+        {
+            currentWall.position = collision.contacts[0].point;
+        }
     }
 }
