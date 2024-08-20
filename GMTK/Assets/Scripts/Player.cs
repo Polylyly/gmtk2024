@@ -74,6 +74,8 @@ public class Player : MonoBehaviour
 
     public AudioSource jumpSound;
 
+    public HealthBar healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -81,6 +83,7 @@ public class Player : MonoBehaviour
         pickedUp = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        healthBar.SetMaxHealth(maxHealth);
 
         pauseMenu.SetActive(false);
 
@@ -302,11 +305,14 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Owie #" + damage);
         currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
         //Player feedback
     }
 
     void Die()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SceneManager.LoadScene("Main Menu");
     }
 
